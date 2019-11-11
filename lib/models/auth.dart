@@ -8,12 +8,14 @@ class Login {
 }
 
 
-class Signup {
+class User {
   final String name;
   final String email;
-  final String password;
-  final String confirmpassword;
+  final String token;
+  final String id;
+  final String avatar;
+  
 
-  Signup({@required this.name, @required this.email, @required this.password, @required this.confirmpassword});
+  User({@required this.name, @required this.id, @required this.token, @required this.avatar, @required this.email});
 
 }

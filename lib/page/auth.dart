@@ -3,6 +3,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:soad_app/models/auth.dart';
 import '../scoped-models/auth.dart';
 import 'dart:convert';
+import '../page/homepage.dart';
 
 class LoginScreen3 extends StatefulWidget {
   @override
@@ -18,7 +19,7 @@ class _LoginScreen3State extends State<LoginScreen3>
   TextEditingController _emailLoginController = new TextEditingController();
   TextEditingController _passwordLoginController = new TextEditingController();
 
-  Map<String, dynamic> signupInfo;
+  Map<String, dynamic> signupInfo, loginInfo;
   bool _passwordValidator = false;
   bool _nameValidator = false;
   bool _emailValidator = false;
@@ -33,7 +34,8 @@ class _LoginScreen3State extends State<LoginScreen3>
   }
 
   Widget HomePage() {
-    return new Container(
+    return new Scaffold(body: 
+    Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         color: Colors.redAccent,
@@ -149,7 +151,7 @@ class _LoginScreen3State extends State<LoginScreen3>
           ),
         ],
       ),
-    );
+    ),); 
   }
 
   Widget LoginPage() {
@@ -306,48 +308,84 @@ class _LoginScreen3State extends State<LoginScreen3>
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
               alignment: Alignment.center,
-              child: new Row(
-                children: <Widget>[
-                  new Expanded(
-                    child: new FlatButton(
-                      shape: new RoundedRectangleBorder(
-                        borderRadius: new BorderRadius.circular(30.0),
-                      ),
-                      color: Colors.redAccent,
-                      onPressed: () => {
-                        setState(() {
-                          _passwordLoginController.text.isEmpty
-                              ? _passwordLoginValidator = true
-                              : _passwordLoginValidator = false;
-
-                          _emailLoginController.text.isEmpty
-                              ? _emailLoginValidator = true
-                              : _emailLoginValidator = false;
-                        }),
-                      },
-                      child: new Container(
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 20.0,
-                          horizontal: 20.0,
-                        ),
-                        child: new Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+              child: ScopedModelDescendant<AuthModel>(
+                builder: (BuildContext context, Widget child, AuthModel model) {
+                  return model.isLoading
+                      ? CircularProgressIndicator()
+                      : new Row(
                           children: <Widget>[
                             new Expanded(
-                              child: Text(
-                                "LOGIN",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold),
+                              child: new FlatButton(
+                                shape: new RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(30.0),
+                                ),
+                                color: Colors.redAccent,
+                                onPressed: () async => {
+                                  setState(() {
+                                    _passwordLoginController.text.isEmpty
+                                        ? _passwordLoginValidator = true
+                                        : _passwordLoginValidator = false;
+
+                                    _emailLoginController.text.isEmpty
+                                        ? _emailLoginValidator = true
+                                        : _emailLoginValidator = false;
+                                  }),
+                                  if (!_passwordLoginValidator &&
+                                      !_emailLoginValidator)
+                                    {
+                                      loginInfo = await model.login(
+                                          _emailLoginController.text,
+                                          _passwordLoginController.text),
+                                    },
+                                  loginInfo["hasError"]
+                                      ? showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title: Text(
+                                                  'An Error has Occurred!'),
+                                              content:
+                                                  Text(loginInfo['message']),
+                                              actions: <Widget>[
+                                                FlatButton(
+                                                  child: Text('Okay'),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                )
+                                              ],
+                                            );
+                                          })
+                                      : {
+                                          Navigator.pushReplacementNamed(
+                                              context, '/')
+                                        }
+                                },
+                                child: new Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 20.0,
+                                    horizontal: 20.0,
+                                  ),
+                                  child: new Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      new Expanded(
+                                        child: Text(
+                                          "LOGIN",
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             ),
                           ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                        );
+                },
               ),
             ),
             new Container(
