@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:scoped_model/scoped_model.dart';
 import 'package:soad_app/models/auth.dart';
-import '../scoped-models/auth.dart';
+import '../scoped-models/mainmodel.dart';
 import 'dart:convert';
 import '../page/homepage.dart';
 
@@ -308,8 +308,8 @@ class _LoginScreen3State extends State<LoginScreen3>
               width: MediaQuery.of(context).size.width,
               margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
               alignment: Alignment.center,
-              child: ScopedModelDescendant<AuthModel>(
-                builder: (BuildContext context, Widget child, AuthModel model) {
+              child: ScopedModelDescendant<MainModel>(
+                builder: (BuildContext context, Widget child, MainModel model) {
                   return model.isLoading
                       ? CircularProgressIndicator()
                       : new Row(
@@ -801,8 +801,8 @@ class _LoginScreen3State extends State<LoginScreen3>
                 margin: const EdgeInsets.only(
                     left: 30.0, right: 30.0, top: 30.0, bottom: 30),
                 alignment: Alignment.center,
-                child: ScopedModelDescendant<AuthModel>(builder:
-                    (BuildContext context, Widget child, AuthModel model) {
+                child: ScopedModelDescendant<MainModel>(builder:
+                    (BuildContext context, Widget child, MainModel model) {
                   return model.isLoading
                       ? CircularProgressIndicator()
                       : new Row(

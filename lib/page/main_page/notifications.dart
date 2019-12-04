@@ -18,13 +18,22 @@ class _NotificationsState extends State<Notifications> {
             onTap: () {
               print("object");
             },
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Text(
-                "Notification " +
-                    position.toString() +
-                    ". \nThis is a big notification just to check it",
-                style: TextStyle(fontSize: 22.0),
+            child: ListTile(
+              leading: ClipRRect(
+                borderRadius: new BorderRadius.circular(15.0),
+                child: Image.asset(
+                  'assets/images/nature.jpeg',
+                  alignment: Alignment.centerLeft,
+                ),
+              ),
+              title: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  "Notification " +
+                      position.toString() +
+                      ". \nThis is a big notification just to check it",
+                  style: TextStyle(fontSize: 14.0),
+                ),
               ),
             ),
           ),
