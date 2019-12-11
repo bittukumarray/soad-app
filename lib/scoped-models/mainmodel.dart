@@ -8,6 +8,7 @@ import 'package:scoped_model/scoped_model.dart';
 import './auth.dart';
 import './userpost.dart';
 import './newsmodel.dart';
+import './userprofile.dart';
 
 class MainModel extends Model
     with
@@ -18,4 +19,5 @@ class MainModel extends Model
         HealthnewsModel,
         TechnologynewsModel,
         SportsnewsModel,
-        EntertainmentnewsModel {}
+        EntertainmentnewsModel,
+        UserProfileModel {}

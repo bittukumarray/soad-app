@@ -6,6 +6,7 @@ import '../page/main_page/user_post.dart';
 import '../page/main_page/notifications.dart';
 import '../page/main_page/friend_contacts.dart';
 import './testilepages/news.dart';
+import './testilepages/userprofile.dart';
 
 class HomePostPage extends StatefulWidget {
   final MainModel _model;
@@ -23,7 +24,7 @@ class _HomePostPageState extends State<HomePostPage> {
 
   @override
   void initState() {
-    // widget._model.getPost();
+    widget._model.getUserProfile(widget._model.user.token);
     super.initState();
   }
 
@@ -96,6 +97,20 @@ class _HomePostPageState extends State<HomePostPage> {
                     title: Text("Profile"),
                     leading: Icon(Icons.person),
                     trailing: Icon(Icons.arrow_forward),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              ScopedModelDescendant(
+                            builder: (BuildContext context, Widget child,
+                                MainModel model) {
+                              return UserProfilePage();
+                            },
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   ListTile(
                     title: Text("New-Service"),

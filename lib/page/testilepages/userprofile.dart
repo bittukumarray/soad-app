@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../scoped-models/mainmodel.dart';
 import 'package:scoped_model/scoped_model.dart';
-import 'package:link/link.dart';
+// import 'package:link/link.dart';
 
 class UserProfilePage extends StatefulWidget {
-  final List<dynamic> sportsPost;
-  UserProfilePage(this.sportsPost);
-
   @override
   State<StatefulWidget> createState() {
     return _UserProfilePageState();
@@ -14,117 +11,259 @@ class UserProfilePage extends StatefulWidget {
 }
 
 class _UserProfilePageState extends State<UserProfilePage> {
-
   @override
   void initState() {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ScopedModelDescendant<MainModel>(
       builder: (BuildContext context, Widget child, MainModel model) {
-        return ListView.builder(
-          itemBuilder: (context, position) {
-            return Card(
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                padding: EdgeInsets.only(
-                    left: 5.0, right: 5.0, top: 5.0, bottom: 5.0),
-                margin: const EdgeInsets.only(
-                    left: 30.0, right: 30.0, top: 20.0, bottom: 10.0),
-                alignment: Alignment.center,
-                child: widget.sportsPost == null
-                    ? CircularProgressIndicator()
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            widget.sportsPost[position]["title"].toString(),
-                            style: TextStyle(fontSize: 22),
-                          ),
-                          Text(widget.sportsPost[position]["publishedAt"]
-                              .toString()),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              widget.sportsPost[position]["description"] == null
-                                  ? "Description not found!"
-                                  : widget.sportsPost[position]["description"]
-                                      .toString(),
-                              style: TextStyle(
-                                fontSize: 15.0,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          FlatButton(
-                              clipBehavior: Clip.hardEdge,
-                              autofocus: true,
-                              onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder: (BuildContext context) =>
-                                //         PostPage(position),
-                                //   ),
-                                // );
-                              },
-                              child: widget.sportsPost[position]
-                                          ["urlToImage"] ==
-                                      null
-                                  ? Text("Image not found!")
-                                  : new Image.network(
-                                      widget.sportsPost[position]["urlToImage"],
-                                      fit: BoxFit.fill,
-                                    )),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            child:
-                                widget.sportsPost[position]["content"] == null
-                                    ? Text("Content not found!")
-                                    : Text(
-                                        widget.sportsPost[position]["content"],
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                          ),
-                          Container(
-                            padding: EdgeInsets.all(10),
-                            child: Text(
-                              widget.sportsPost[position]["author"] == null
-                                  ? "By : Anonymous"
-                                  : "By : ${widget.sportsPost[position]["author"]}",
-                              style: TextStyle(color: Colors.red, fontSize: 18),
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          widget.sportsPost[position]["url"] == null
-                              ? Text("")
-                              : Link(
-                                  child: Text(
-                                    widget.sportsPost[position]["source"]
-                                        ["name"],
-                                    style: TextStyle(color: Colors.blue),
-                                  ),
-                                  url: widget.sportsPost[position]["url"],
-                                  onError: () {},
-                                ),
-                        ],
+        return Scaffold(
+          appBar: AppBar(
+            title: Text("Profile Page"),
+          ),
+          body: ScopedModelDescendant<MainModel>(
+            builder: (BuildContext context, Widget child, MainModel model) {
+              return ListView(
+                children: <Widget>[
+                  Container(
+                    height: 200,
+                    width: 200,
+                    padding: EdgeInsets.only(
+                      left: 15.0,
+                      right: 15.0,
+                    ),
+                    margin: EdgeInsets.only(
+                      left: 10.0,
+                      right: 15.0,
+                      top: 20,
+                    ),
+                    decoration: new BoxDecoration(
+                      color: Colors.grey[200],
+                      shape: BoxShape.circle,
+                      image: new DecorationImage(
+                        fit: BoxFit.fill,
+                        image: new NetworkImage(
+                          "https://source.unsplash.com/random",
+                        ),
                       ),
-              ),
-            );
-          },
-          scrollDirection: Axis.vertical,
-          itemCount: widget.sportsPost == null ? 10 : widget.sportsPost.length,
+                    ),
+                    alignment: FractionalOffset(0.5, 0.5),
+                    // child: Text(
+                    //   model.userProfile["user"]["name"] == null
+                    //       ? ""
+                    //       : model.userProfile["user"]["name"].toString(),
+                    //   style: new TextStyle(
+                    //     color: Colors.redAccent,
+                    //     fontWeight: FontWeight.bold,
+                    //     fontSize: 30.0,
+                    //   ),
+                    // ),
+                  ),
+                  Container(
+                    // color: Colors.grey[200],
+                    alignment: FractionalOffset(0.5, 0.5),
+                    child: Text(
+                      model.userProfile["user"]["name"] == null
+                          ? ""
+                          : model.userProfile["user"]["name"].toString(),
+                      style: new TextStyle(
+                        color: Colors.green[300],
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    // color: Colors.grey[200],
+                    alignment: FractionalOffset(0.5, 0.5),
+                    child: Text(
+                      model.userProfile["status"] == null
+                          ? ""
+                          : model.userProfile["status"].toString(),
+                      style: new TextStyle(
+                        color: Color.fromRGBO(32, 100, 120, 1),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    // color: Colors.grey[200],
+                    alignment: FractionalOffset(0.5, 0.5),
+                    child: Text(
+                      "-----Experience Details-----",
+                      style: new TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    // color: Colors.grey,
+                    alignment: FractionalOffset(0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text("Title"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          model.userProfile["experience"][0]["title"]
+                              .toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    // color: Colors.grey,
+                    alignment: FractionalOffset(0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text("Company"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          model.userProfile["experience"][0]["company"]
+                              .toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    // color: Colors.grey,
+                    alignment: FractionalOffset(0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text("Location"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          model.userProfile["experience"][0]["location"]
+                              .toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    // color: Colors.grey,
+                    alignment: FractionalOffset(0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text("Description"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          model.userProfile["experience"][0]["description"]
+                              .toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(20),
+                    // color: Colors.grey[200],
+                    alignment: FractionalOffset(0.5, 0.5),
+                    child: Text(
+                      "-----Education Details-----",
+                      style: new TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    // color: Colors.grey,
+                    alignment: FractionalOffset(0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text("School"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          model.userProfile["education"][0]["school"]
+                              .toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    // color: Colors.grey,
+                    alignment: FractionalOffset(0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text("Degree"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          model.userProfile["education"][0]["degree"]
+                              .toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    // color: Colors.grey,
+                    alignment: FractionalOffset(0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text("Study Field"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          model.userProfile["education"][0]["fieldofstudy"]
+                              .toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.all(10),
+                    // color: Colors.grey,
+                    alignment: FractionalOffset(0, 0),
+                    child: Row(
+                      children: <Widget>[
+                        Text("Description"),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          model.userProfile["education"][0]["description"]
+                              .toString(),
+                          style: TextStyle(color: Colors.grey),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         );
       },
     );

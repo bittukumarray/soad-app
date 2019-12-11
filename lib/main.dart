@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
     _model.getTechnologynews();
     _model.getSportsnews();
     _model.getEntertainmentnews();
-  
+
     super.initState();
   }
 
@@ -37,9 +37,7 @@ class _MyAppState extends State<MyApp> {
     return ScopedModel<MainModel>(
         model: _model,
         child: MaterialApp(
-          theme: ThemeData(
-            backgroundColor: Colors.redAccent,
-          ),
+          theme: ThemeData(primaryColor: Color.fromRGBO(32, 100, 102, 1)),
           routes: {
             '/': (BuildContext context) => ScopedModelDescendant(
                   builder:
