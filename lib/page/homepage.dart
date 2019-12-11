@@ -5,6 +5,7 @@ import '../widgets/ui_elements/logout_listile.dart';
 import '../page/main_page/user_post.dart';
 import '../page/main_page/notifications.dart';
 import '../page/main_page/friend_contacts.dart';
+import './testilepages/news.dart';
 
 class HomePostPage extends StatefulWidget {
   final MainModel _model;
@@ -95,6 +96,25 @@ class _HomePostPageState extends State<HomePostPage> {
                     title: Text("Profile"),
                     leading: Icon(Icons.person),
                     trailing: Icon(Icons.arrow_forward),
+                  ),
+                  ListTile(
+                    title: Text("New-Service"),
+                    leading: Icon(Icons.new_releases),
+                    trailing: Icon(Icons.arrow_forward),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (BuildContext context) =>
+                              ScopedModelDescendant(
+                            builder: (BuildContext context, Widget child,
+                                MainModel model) {
+                              return NewsPage();
+                            },
+                          ),
+                        ),
+                      );
+                    },
                   ),
                   ListTile(
                     title: Text("Friends"),

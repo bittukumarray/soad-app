@@ -38,7 +38,7 @@ class AuthModel extends Model {
       // Verify the signature in the JWT and extract its claim set
       final token = responseData['token'].replaceAll('Bearer ', '');
       final decClaimSet = verifyJwtHS256Signature(token, key);
-      print('JwtClaim: $decClaimSet\n');
+      // print('JwtClaim: $decClaimSet\n');
       hasError = false;
       message = 'Logged in successfully';
       _authenticatedUser = User(
@@ -66,14 +66,14 @@ class AuthModel extends Model {
 
     _isLoading = false;
     notifyListeners();
-    print(responseData);
+    // print(responseData);
     return {"hasError": hasError, "message": message};
   }
 
   void autoAuth() async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     final String token = pref.getString('token');
-    print("token is $token");
+    // print("token is $token");
     if (token != null) {
       final String name = pref.getString('name');
       final String avatar = pref.getString('avatar');
@@ -82,12 +82,12 @@ class AuthModel extends Model {
       _authenticatedUser =
           User(name: name, id: id, token: token, avatar: avatar, email: "abcd");
       notifyListeners();
-      print("user is $id");
+      // print("user is $id");
     }
   }
 
   void logout() async {
-    print('Logout');
+    // print('Logout');
     _authenticatedUser = null;
     final SharedPreferences pref = await SharedPreferences.getInstance();
     pref.remove("token");
@@ -101,7 +101,7 @@ class AuthModel extends Model {
       String email, String name, String password, String password2) async {
     _isLoading = true;
     notifyListeners();
-    print("in signup");
+    // print("in signup");
     final Map<String, dynamic> AuthData = {
       "email": email,
       "name": name,

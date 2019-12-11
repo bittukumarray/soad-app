@@ -3,7 +3,7 @@ import './page/auth.dart';
 import 'package:scoped_model/scoped_model.dart';
 import "./scoped-models/mainmodel.dart";
 import './page/homepage.dart';
-import './page/subpages/indvpost.dart';
+// import './page/subpages/indvpost.dart';
 
 main() {
   runApp(MyApp());
@@ -23,6 +23,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     _model.autoAuth();
     _model.getPost();
+    _model.getGeneralnews();
+    _model.getHealthnews();
+    _model.getTechnologynews();
+    _model.getSportsnews();
+    _model.getEntertainmentnews();
+  
     super.initState();
   }
 

@@ -7,5 +7,15 @@ import 'package:scoped_model/scoped_model.dart';
 // import '../models/auth.dart';
 import './auth.dart';
 import './userpost.dart';
+import './newsmodel.dart';
 
-class MainModel extends Model with AuthModel, PostModel, LikeCommentModel {}
+class MainModel extends Model
+    with
+        AuthModel,
+        PostModel,
+        LikeCommentModel,
+        GeneralNewModel,
+        HealthnewsModel,
+        TechnologynewsModel,
+        SportsnewsModel,
+        EntertainmentnewsModel {}

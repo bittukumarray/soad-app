@@ -52,22 +52,29 @@ class _UserPostState extends State<UserPost> {
                                 width: 30,
                                 height: 30,
                                 decoration: new BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: new DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: new NetworkImage(
-                                          "https://source.unsplash.com/random",
-                                        ))),
+                                  shape: BoxShape.circle,
+                                  image: new DecorationImage(
+                                    fit: BoxFit.fill,
+                                    image: new NetworkImage(
+                                      "https://source.unsplash.com/random",
+                                    ),
+                                  ),
+                                ),
                               ),
-                              Text(model.Postlist[position]["name"] == null
-                                  ? "Anonymous"
-                                  : model.Postlist[position]["name"].toString())
+                              Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  model.Postlist[position]["name"] == null
+                                      ? "Anonymous"
+                                      : model.Postlist[position]["name"]
+                                          .toString(),
+                                  style: TextStyle(fontSize: 20),
+                                ),
+                              ),
                             ],
                           ),
                           Text(
-                            model.Postlist[position]["date"]
-                                .split("T")[0]
-                                .toString(),
+                            model.Postlist[position]["date"].toString(),
                           ),
 
                           SizedBox(
@@ -91,11 +98,14 @@ class _UserPostState extends State<UserPost> {
                           //     ],
                           //   ),
                           // ),
-                          Text(
-                            model.Postlist[position]["text"].toString(),
-                            style: TextStyle(
-                              fontSize: 15.0,
-                              color: Colors.blue,
+                          Container(
+                            padding: EdgeInsets.all(10),
+                            child: Text(
+                              model.Postlist[position]["text"].toString(),
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                color: Colors.black,
+                              ),
                             ),
                           ),
                           SizedBox(

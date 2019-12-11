@@ -3,7 +3,7 @@ import 'package:scoped_model/scoped_model.dart';
 import '../../scoped-models/mainmodel.dart';
 
 class PostPage extends StatefulWidget {
-  int  index;
+  int index;
 
   PostPage(this.index);
 
@@ -24,17 +24,41 @@ class _PostPageState extends State<PostPage> {
             (comment) => Padding(
               padding: EdgeInsets.all(10),
               child: Card(
+                color: Colors.grey[200],
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      padding:
-                          EdgeInsets.only(top: 5, bottom: 5, left: 5, right: 5),
-                      margin: EdgeInsets.only(top: 5, bottom: 5),
-                      color: Colors.grey,
-                      child: Text(
-                        comment['name'],
-                      ),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(
+                            left: 15.0,
+                          ),
+                          margin: EdgeInsets.only(
+                            left: 10.0,
+                          ),
+                          width: 20,
+                          height: 20,
+                          decoration: new BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: new DecorationImage(
+                              fit: BoxFit.fill,
+                              image: new NetworkImage(
+                                "https://source.unsplash.com/random",
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(
+                              top: 5, bottom: 5, left: 5, right: 5),
+                          margin: EdgeInsets.only(top: 5, bottom: 5),
+                          child: Text(
+                            comment['name'],
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                        ),
+                      ],
                     ),
                     Container(
                       padding: EdgeInsets.all(10),
@@ -84,10 +108,13 @@ class _PostPageState extends State<PostPage> {
                       ),
                     ),
                   ),
-                  Text(
-                    model.Postlist[widget.index]["name"] == null
-                        ? "Anonymous"
-                        : model.Postlist[widget.index]["name"].toString(),
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    child: Text(
+                      model.Postlist[widget.index]["name"] == null
+                          ? "Anonymous"
+                          : model.Postlist[widget.index]["name"].toString(),
+                    ),
                   )
                 ],
               ),
@@ -97,7 +124,17 @@ class _PostPageState extends State<PostPage> {
                 ),
                 margin: EdgeInsets.only(left: 10.0, top: 5.0),
                 child: Text(
-                  model.Postlist[widget.index]["date"].split("T")[0].toString(),
+                  model.Postlist[widget.index]["date"].toString(),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(10),
+                child: Text(
+                  model.Postlist[widget.index]["text"].toString(),
+                  style: TextStyle(
+                    fontSize: 18.0,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               Container(
@@ -136,70 +173,72 @@ class _PostPageState extends State<PostPage> {
                   icon: Icon(Icons.thumb_up),
                   onPressed: () {},
                   color: Colors.blue,
-                  label: Text(model.Postlist[widget.index]["likes"].length.toString()),
+                  label: Text(
+                      model.Postlist[widget.index]["likes"].length.toString()),
                 ),
               ),
               Container(
-                  child: Column(
-                children: <Widget>[
-                  Text("Comments "),
-                  commentBulid(model.Postlist[widget.index]["comments"]),
-                  Padding(
-                    padding: EdgeInsets.all(10),
-                    child: new TextFormField(
-                      decoration: new InputDecoration(
-                        labelText: "Comment here",
-                        fillColor: Colors.white,
-                        border: new OutlineInputBorder(
-                          borderRadius: new BorderRadius.circular(25.0),
-                          borderSide: new BorderSide(),
+                child: Column(
+                  children: <Widget>[
+                    Text("Comments "),
+                    commentBulid(model.Postlist[widget.index]["comments"]),
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: new TextFormField(
+                        decoration: new InputDecoration(
+                          labelText: "Comment here",
+                          fillColor: Colors.white,
+                          border: new OutlineInputBorder(
+                            borderRadius: new BorderRadius.circular(25.0),
+                            borderSide: new BorderSide(),
+                          ),
+                          //fillColor: Colors.green
                         ),
-                        //fillColor: Colors.green
-                      ),
-                      controller:_commentController,
-                      validator: (val) {
-                        if (val.length > 0) {
+                        controller: _commentController,
+                        validator: (val) {
+                          if (val.length > 0) {
                             return "Comment length should be greater than 0";
-                        }
-                        return "0";
-                      },
-                      keyboardType: TextInputType.text,
-                      style: new TextStyle(
-                        fontFamily: "Poppins",
+                          }
+                          return "0";
+                        },
+                        keyboardType: TextInputType.text,
+                        style: new TextStyle(
+                          fontFamily: "Poppins",
+                        ),
                       ),
                     ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                      left: 5.0,
-                      right: 10.0,
+                    Container(
+                      padding: EdgeInsets.only(
+                        left: 5.0,
+                        right: 10.0,
+                      ),
+                      margin: EdgeInsets.only(
+                        left: 5.0,
+                        right: 5.0,
+                        top: 20,
+                        bottom: 10
+                      ),
+                      child: FlatButton.icon(
+                        icon: Icon(Icons.arrow_upward),
+                        onPressed: () async {
+                          commentinfo = await model.postcomment(
+                              model.Postlist[widget.index]["_id"],
+                              model.user.token,
+                              model.user.avatar,
+                              model.user.name,
+                              _commentController.text);
+                          if (commentinfo.containsKey("status")) {
+                            model.getPost();
+                            // PostPage(widget.post);
+                          }
+                        },
+                        color: Colors.redAccent,
+                        label: Text("Comment"),
+                      ),
                     ),
-                    margin: EdgeInsets.only(
-                      left: 5.0,
-                      right: 5.0,
-                      top: 20,
-                    ),
-                    child: FlatButton.icon(
-                      icon: Icon(Icons.arrow_upward),
-                      onPressed: () async {
-
-                        commentinfo = await model.postcomment(
-                            model.Postlist[widget.index]["_id"],
-                            model.user.token,
-                            model.user.avatar,
-                            model.user.name,
-                            _commentController.text);
-                        if (commentinfo.containsKey("status")) {
-                         model.getPost();
-                          // PostPage(widget.post);
-                        }
-                      },
-                      color: Colors.redAccent,
-                      label: Text("Comment"),
-                    ),
-                  ),
-                ],
-              ))
+                  ],
+                ),
+              ),
             ],
           ),
         );

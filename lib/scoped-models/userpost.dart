@@ -2,10 +2,7 @@ import 'package:scoped_model/scoped_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../page/host.dart';
-import 'package:jaguar_jwt/jaguar_jwt.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../models/auth.dart';
-import './auth.dart';
+
 
 class PostModel extends Model {
 // /api/posts/
@@ -26,7 +23,7 @@ class PostModel extends Model {
     // print("in the getpost funct after await ");
     final List<dynamic> responseData = json.decode(response.body);
 
-    // print(responseData);
+    // print("Response data is $responseData");
 
     _postList = responseData;
     // print(" post data is  $_postList");
@@ -54,7 +51,7 @@ class LikeCommentModel extends Model {
     // print("in the getpost funct after await ");
     final Map<dynamic, dynamic> responseData = json.decode(response.body);
 
-    print(responseData);
+    // print(responseData);
     if (responseData.containsKey('_id')) {
       notifyListeners();
       return {"status": "success", "code": 200, "data": responseData};
@@ -66,9 +63,9 @@ class LikeCommentModel extends Model {
   Future<Map<dynamic, dynamic>> postcomment(String post_id, String token,
       String avatar, String name, String comment) async {
     final String host = Host().host;
-    print("post_id is$post_id");
-    print("Token is $token");
-    print("Comment is $comment");
+    // print("post_id is$post_id");
+    // print("Token is $token");
+    // print("Comment is $comment");
     // print("in the getpost funct before await ");
     final http.Response response = await http.post(
         '$host/api/posts/comment/$post_id',
@@ -77,7 +74,7 @@ class LikeCommentModel extends Model {
     // print("in the getpost funct after await ");
     final Map<dynamic, dynamic> responseData = json.decode(response.body);
 
-    print(responseData);
+    // print(responseData);
     if (responseData.containsKey('_id')) {
       notifyListeners();
       return {"status": "success", "code": 200, "data": responseData};
