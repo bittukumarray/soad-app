@@ -16,6 +16,7 @@ class UserPost extends StatefulWidget {
 }
 
 class _UserPostState extends State<UserPost> {
+  Map<dynamic, dynamic> likeinfo;
   @override
   void initState() {
     // for (var i in widget.postList) {
@@ -108,7 +109,7 @@ class _UserPostState extends State<UserPost> {
                                   context,
                                   MaterialPageRoute(
                                     builder: (BuildContext context) =>
-                                        PostPage(model.Postlist[position]),
+                                        PostPage(position),
                                   ),
                                 );
                               },
@@ -123,7 +124,14 @@ class _UserPostState extends State<UserPost> {
                             children: <Widget>[
                               FlatButton.icon(
                                 icon: Icon(Icons.thumb_up),
-                                onPressed: () {},
+                                onPressed: () async => {
+                                  likeinfo = await model.postlike(
+                                      model.Postlist[position]["_id"],
+                                      model.user.token),
+                                  likeinfo.containsKey("status")
+                                      ? model.getPost()
+                                      : {}
+                                },
                                 color: Colors.blue,
                                 label: Text(model
                                     .Postlist[position]["likes"].length
@@ -139,7 +147,7 @@ class _UserPostState extends State<UserPost> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (BuildContext context) =>
-                                          PostPage(model.Postlist[position]),
+                                          PostPage(position),
                                     ),
                                   );
                                 },

@@ -12,7 +12,7 @@ class PostModel extends Model {
 
   List<dynamic> _postList = null;
 
-  List<dynamic> get Postlist{
+  List<dynamic> get Postlist {
     return _postList;
   }
 
@@ -26,13 +26,66 @@ class PostModel extends Model {
     // print("in the getpost funct after await ");
     final List<dynamic> responseData = json.decode(response.body);
 
-      print(responseData);
+    // print(responseData);
 
     _postList = responseData;
-
     // print(" post data is  $_postList");
-      notifyListeners();
+    notifyListeners();
+  }
+}
+
+class LikeCommentModel extends Model {
+  Map<dynamic, dynamic> _LikeResponse = null;
+
+  Map<dynamic, dynamic> get LikeResponse {
+    return _LikeResponse;
   }
 
+  Future<Map<dynamic, dynamic>> postlike(String post_id, token) async {
+    final String host = Host().host;
+    // print("post_id is$post_id");
+    // print("Token is $token");
+    // print("in the getpost funct before await ");
+    final http.Response response = await http
+        .post('$host/api/posts/like/$post_id', headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      "Authorization": token
+    });
+    // print("in the getpost funct after await ");
+    final Map<dynamic, dynamic> responseData = json.decode(response.body);
 
+    print(responseData);
+    if (responseData.containsKey('_id')) {
+      notifyListeners();
+      return {"status": "success", "code": 200, "data": responseData};
+    } else {
+      return {"status": "failed", "code": null};
+    }
+  }
+
+  Future<Map<dynamic, dynamic>> postcomment(String post_id, String token,
+      String avatar, String name, String comment) async {
+    final String host = Host().host;
+    print("post_id is$post_id");
+    print("Token is $token");
+    print("Comment is $comment");
+    // print("in the getpost funct before await ");
+    final http.Response response = await http.post(
+        '$host/api/posts/comment/$post_id',
+        body: {"avatar": avatar, "text": comment, "name": name},
+        headers: {"Authorization": token});
+    // print("in the getpost funct after await ");
+    final Map<dynamic, dynamic> responseData = json.decode(response.body);
+
+    print(responseData);
+    if (responseData.containsKey('_id')) {
+      notifyListeners();
+      return {"status": "success", "code": 200, "data": responseData};
+    } else {
+      return {
+        "status": "failed",
+        "code": null,
+      };
+    }
+  }
 }
